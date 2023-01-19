@@ -1,21 +1,18 @@
 class Node:
-    def __init__(self, url:str = '', foward=None, back=None) -> None:
+    def __init__(self, url:str = '', forward=None, back=None) -> None:
         self.url = url
-        self.foward = foward
+        self.forward = forward
         self.back = back
 
 class BrowserHistory:
     def __init__(self, url:str) -> None:
         new_node = Node(url=url)
-        self.head = new_node
         self.current = new_node
 
     def visit(self, url:str) -> None:
         new_node = Node(url=url)
-        head = self.head
-        head.foward = new_node
-        new_node.back = head
-        self.head = new_node
+        self.current.forward = new_node
+        new_node.back = self.current
         self.current = new_node
 
     def back(self, num:int) -> str:
@@ -27,9 +24,9 @@ class BrowserHistory:
                 self.current = prev
         return prev.url
     
-    def foward(self, num) -> str:
+    def forward(self, num) -> str:
         for _ in range(num):
-            post = self.current.foward
+            post = self.current.forward
             if post == None:
                 return self.current.url
             else:
@@ -42,7 +39,8 @@ browserHistory.visit(url='facebook.com')
 browserHistory.visit(url='youtube.com')
 print(browserHistory.back(1))
 print(browserHistory.back(1))
-print(browserHistory.foward(1))
+print(browserHistory.forward(1))
 browserHistory.visit(url='linkedin.com')
-print(browserHistory.foward(2))
+print(browserHistory.forward(2))
+print(browserHistory.back(2))
 print(browserHistory.back(7))
